@@ -3,8 +3,10 @@ import importlib
 from pyrogram import idle
 from PROTECTOR import PROTECTOR, application
 from PROTECTOR.modules import ALL_MODULES
+import nest_asyncio
+nest_asyncio.apply()
 
-LOGGER_ID = -1002014167331
+LOGGER_ID = -1002625181470
 
 loop = asyncio.get_event_loop()
 
