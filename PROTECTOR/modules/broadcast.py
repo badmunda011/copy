@@ -1,7 +1,7 @@
 from pyrogram import filters
 from pyrogram.errors import FloodWait
 from config import SUDOERS
-from PROTECTOR import PROTECTOR as app
+from PROTECTOR import app
 from PROTECTOR.helper.mongo import get_served_chats
 from PROTECTOR.helper.mongo import get_served_users
 
