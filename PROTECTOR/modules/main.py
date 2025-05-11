@@ -8,7 +8,7 @@ import json
 from pyrogram import Client, filters
 from pyrogram.types import CallbackQuery, InlineKeyboardButton, InlineKeyboardMarkup, Message
 from config import BOT_USERNAME, OWNER_ID
-from PROTECTOR import PROTECTOR as app
+from PROTECTOR import app
 from config import *
 
 # Constants
