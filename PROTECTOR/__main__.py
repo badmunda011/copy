@@ -4,7 +4,7 @@ import importlib
 from PROTECTOR.modules import ALL_MODULES
 from PROTECTOR import app, bot, application
 from pyrogram import idle
-import Config
+import config
 import nest_asyncio
 
 # Apply nest_asyncio to handle nested event loops
@@ -44,7 +44,7 @@ async def main():
 
     # Send message to Logger group
     try:
-        await app.send_message(Config.LOGGER_ID, "✅ **Bot Started Successfully!**")
+        await app.send_message(config.LOGGER_ID, "✅ **Bot Started Successfully!**")
         LOGGER("PROTECTOR").info("Start message sent to LOGGER_ID.")
     except Exception as e:
         LOGGER("PROTECTOR").error(f"Failed to send start message: {e}")
