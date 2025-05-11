@@ -1,7 +1,7 @@
 import asyncio
 import importlib
 from pyrogram import idle
-from PROTECTOR import PROTECTOR
+from PROTECTOR import PROTECTOR, application
 from PROTECTOR.modules import ALL_MODULES
 
 LOGGER_ID = -1002014167331
