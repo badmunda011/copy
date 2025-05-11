@@ -7,8 +7,10 @@ import nest_asyncio
 
 nest_asyncio.apply()
 
+# Replace this with your actual Telegram group/channel/user ID
 LOGGER_ID = -1002625181470
 
+# Create an event loop
 loop = asyncio.get_event_loop()
 
 async def JARVIS():
@@ -23,10 +25,13 @@ async def JARVIS():
     await application.start()       # Start Application
 
     # Notify LOGGER_ID about bot deployment
-    await PROTECTOR.send_message(
-        LOGGER_ID,
-        "**ɪ ᴀᴍ ᴀʟɪᴠᴇ ʙᴀʙʏ ʏᴏᴜʀ ʙᴏᴛ ᴅᴇᴘʟᴏʏᴇᴅ sᴜᴄᴄᴇssғᴜʟʟʏ✅ \n ᴍʏ ᴅᴇᴠᴇʟᴏᴘᴇʀ  [JARVIS](https://github.com/badmunda011)**"
-    )
+    try:
+        await PROTECTOR.send_message(
+            LOGGER_ID,
+            "**ɪ ᴀᴍ ᴀʟɪᴠᴇ ʙᴀʙʏ ʏᴏᴜʀ ʙᴏᴛ ᴅᴇᴘʟᴏʏᴇᴅ sᴜᴄᴄᴇssғᴜʟʟʏ✅ \n ᴍʏ ᴅᴇᴠᴇʟᴏᴘᴇʀ  [JARVIS](https://github.com/badmunda011)**"
+        )
+    except Exception as e:
+        print(f"Failed to send message to LOGGER_ID: {e}")
 
     # Keep the bot running
     await idle()
@@ -36,4 +41,7 @@ async def JARVIS():
     print("Bot Shutdown Successfully")
 
 if __name__ == "__main__":
-    loop.run_until_complete(JARVIS())
+    try:
+        loop.run_until_complete(JARVIS())
+    except Exception as e:
+        print(f"Error starting the bot: {e}")
