@@ -1,7 +1,7 @@
 import logging
 import asyncio
 import importlib
-from PROTECTOR.Modules import ALL_MODULES
+from PROTECTOR.modules import ALL_MODULES
 from PROTECTOR import app, bot, application
 from pyrogram import idle
 import Config
@@ -37,9 +37,9 @@ async def main():
     await application.start()  # Start Telegram (python-telegram-bot) Client
 
     for all_module in ALL_MODULES:
-        importlib.import_module("PROTECTOR.Modules." + all_module)
+        importlib.import_module("PROTECTOR.modules." + all_module)
 
-    LOGGER("PROTECTOR.Modules").info("Successfully Imported Modules...")
+    LOGGER("PROTECTOR.modules").info("Successfully Imported Modules...")
     LOGGER("PROTECTOR").info("Bot Started Successfully...")
 
     # Send message to Logger group
@@ -60,3 +60,4 @@ async def main():
 
 if __name__ == "__main__":
     asyncio.get_event_loop().run_until_complete(main())
+    
