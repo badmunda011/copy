@@ -29,6 +29,9 @@ PROTECTOR = Client(
     bot_token=BOT_TOKEN,
 )
 
+# Telegram (python-telegram-bot) Client
+application = Application.builder().token(BOT_TOKEN).build()
+
 
 
 async def PROTECTOR_bot():
