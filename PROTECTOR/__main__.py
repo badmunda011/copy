@@ -1,47 +1,62 @@
+import logging
 import asyncio
 import importlib
+from PROTECTOR.Modules import ALL_MODULES
+from PROTECTOR import app, bot, application
 from pyrogram import idle
-from PROTECTOR import PROTECTOR, application
-from PROTECTOR.modules import ALL_MODULES
+import Config
 import nest_asyncio
 
+# Apply nest_asyncio to handle nested event loops
 nest_asyncio.apply()
 
-# Replace this with your actual Telegram group/channel/user ID
-LOGGER_ID = -1002625181470
+# Logger Handler
+logging.basicConfig(
+    level=logging.INFO,
+    format="[%(asctime)s - %(levelname)s] - %(name)s - %(message)s",
+    datefmt="%d-%b-%y %H:%M:%S",
+    handlers=[
+        logging.FileHandler("log.txt"),
+        logging.StreamHandler(),
+    ],
+)
 
-# Create an event loop
-loop = asyncio.get_event_loop()
+logging.getLogger("httpx").setLevel(logging.ERROR)
+logging.getLogger("pyrogram").setLevel(logging.ERROR)
+logging.getLogger("telethon").setLevel(logging.ERROR)
 
-async def JARVIS():
-    # Import all modules dynamically
+def LOGGER(name: str) -> logging.Logger:
+    return logging.getLogger(name)
+
+# Main Function
+async def main():
+    await app.start()
+    await bot.start()
+    await application.run_polling()
+    await application.initialize()  # Initialize the Application
+    await application.start()  # Start Telegram (python-telegram-bot) Client
+
     for all_module in ALL_MODULES:
-        importlib.import_module("PROTECTOR.modules." + all_module)
+        importlib.import_module("PROTECTOR.Modules." + all_module)
 
-    print("Bot Started Successfully")
+    LOGGER("PROTECTOR.Modules").info("Successfully Imported Modules...")
+    LOGGER("PROTECTOR").info("Bot Started Successfully...")
 
-    # Initialize the Telegram (python-telegram-bot) client
-    await application.initialize()  # Initialize Application
-    await application.start()       # Start Application
-
-    # Notify LOGGER_ID about bot deployment
+    # Send message to Logger group
     try:
-        await PROTECTOR.send_message(
-            LOGGER_ID,
-            "**ɪ ᴀᴍ ᴀʟɪᴠᴇ ʙᴀʙʏ ʏᴏᴜʀ ʙᴏᴛ ᴅᴇᴘʟᴏʏᴇᴅ sᴜᴄᴄᴇssғᴜʟʟʏ✅ \n ᴍʏ ᴅᴇᴠᴇʟᴏᴘᴇʀ  [JARVIS](https://github.com/badmunda011)**"
-        )
+        await app.send_message(Config.LOGGER_ID, "✅ **Bot Started Successfully!**")
+        LOGGER("PROTECTOR").info("Start message sent to LOGGER_ID.")
     except Exception as e:
-        print(f"Failed to send message to LOGGER_ID: {e}")
+        LOGGER("PROTECTOR").error(f"Failed to send start message: {e}")
 
-    # Keep the bot running
     await idle()
 
-    print("Shutting Down Bot...")
-    await application.shutdown()   # Shutdown Application
-    print("Bot Shutdown Successfully")
+    # Stop all clients properly
+    await app.stop()
+    await bot.disconnect()
+    await application.shutdown()  # Shutdown Telegram (python-telegram-bot) Client
+
+    LOGGER("PROTECTOR").info("Stopping Bot...")
 
 if __name__ == "__main__":
-    try:
-        loop.run_until_complete(JARVIS())
-    except Exception as e:
-        print(f"Error starting the bot: {e}")
+    asyncio.get_event_loop().run_until_complete(main())
